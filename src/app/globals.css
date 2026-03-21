@@ -1,10 +1,13 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --brand: 59 130 246;  /* blue */
-  --brand2: 16 185 129; /* emerald */
+  --brand: 59 130 246;   /* blue */
+  --brand2: 16 185 129;  /* emerald */
 }
 
+/* ОСНОВА */
 html {
   height: 100%;
   color-scheme: dark;
@@ -14,12 +17,63 @@ html {
 body {
   min-height: 100%;
   background:
-    radial-gradient(900px 520px at 12% 12%, rgba(var(--brand), .30), transparent 60%),
-    radial-gradient(820px 480px at 88% 8%, rgba(var(--brand2), .24), transparent 55%),
+    radial-gradient(900px 520px at 12% 12%, rgba(var(--brand), 0.30), transparent 60%),
+    radial-gradient(820px 480px at 88% 8%, rgba(var(--brand2), 0.24), transparent 55%),
     #070B16 !important;
   color: #fff;
 }
 
-* { -webkit-tap-highlight-color: transparent; }
-::selection { background: rgba(var(--brand), .35); }
-a { text-decoration: none; }
+/* UX мелочи */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: rgba(var(--brand), 0.35);
+}
+
+a {
+  text-decoration: none;
+}
+
+/* ========================= */
+/* 🔥 3D КАРТОЧКИ */
+/* ========================= */
+
+.card-3d {
+  position: relative;
+  transform: perspective(1000px) rotateX(var(--rx, 0)) rotateY(var(--ry, 0));
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  will-change: transform;
+}
+
+.card-3d:hover {
+  box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+}
+
+/* 💡 glow следует за мышкой */
+.card-3d::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+
+  background: radial-gradient(
+    400px circle at var(--x, 50%) var(--y, 50%),
+    rgba(59,130,246,0.25),
+    transparent 60%
+  );
+
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.card-3d:hover::before {
+  opacity: 1;
+}
+.glass {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.2);
+}

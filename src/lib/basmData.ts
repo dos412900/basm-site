@@ -1,67 +1,70 @@
 export type Category = {
   slug: string;
-  title: string;
+  title: Record<string, string>;
   children?: Category[];
 };
 
 export type Product = {
   slug: string;
-  title: string;
-  category: string; // slug категории (может быть нижнего уровня)
-  short: string;
+  title: Record<string, string>;
+  category: string;
+  short: Record<string, string>;
   brand?: string;
   specs?: Array<{ k: string; v: string }>;
 };
 
 export const categories: Category[] = [
-  { slug: "neuromonitoring", title: "Нейромониторинг" },
-  { slug: "neuromodulation", title: "Нейромодуляция" },
-  { slug: "neurointervention", title: "Нейроинтервенция" },
-  { slug: "functional-neurosurgery", title: "Функциональная нейрохирургия" },
-  { slug: "cranioplasty", title: "Краниопластика" },
   {
-    slug: "diagnostics",
-    title: "Диагностика",
-    children: [
-      { slug: "mri-ct", title: "МРТ и КТ" },
-      { slug: "ultrasound", title: "УЗИ аппараты" },
-      { slug: "endoscopy", title: "Эндоскопия" },
-      { slug: "cerebral", title: "Церебральная диагностика" },
-    ],
+    slug: "neuro-monitoring",
+    title: { ru: "Нейромониторинг" },
   },
-  { slug: "tools", title: "Инструменты" },
-  { slug: "medical-furniture", title: "Медицинская мебель" },
+  {
+    slug: "neuro-modulation",
+    title: { ru: "Нейромодуляция" },
+  },
+  {
+    slug: "neuro-surgery",
+    title: { ru: "Функциональная нейрохирургия" },
+  },
+  {
+    slug: "cranioplasty",
+    title: { ru: "Краниопластика" },
+  },
+  {
+    slug: "furniture",
+    title: { ru: "Медицинская мебель" },
+  },
+  {
+    slug: "lab",
+    title: { ru: "Лабораторное оборудование" },
+  },
 ];
 
 export const products: Product[] = [
   {
-    slug: "basm-neuro-monitor-x",
-    title: "BAS-M Neuro Monitor X",
-    brand: "BAS-M",
-    category: "neuromonitoring",
-    short: "Система интраоперационного нейромониторинга для нейрохирургии.",
-    specs: [
-      { k: "Назначение", v: "ИОНМ" },
-      { k: "Комплектация", v: "по запросу" },
-    ],
+    slug: "neuromonitor-x1",
+    category: "neuro-monitoring",
+    title: { ru: "Нейромонитор X1" },
+    short: { ru: "Система интраоперационного мониторинга" },
   },
   {
-    slug: "basm-endoscopy-kit",
-    title: "BAS-M Endoscopy Kit",
-    brand: "BAS-M",
-    category: "endoscopy",
-    short: "Комплект решений для эндоскопии, конфигурация под клинику.",
-    specs: [
-      { k: "Сценарии", v: "эндоскопические вмешательства" },
-      { k: "Сервис", v: "обучение + поддержка" },
-    ],
+    slug: "stimulator-pro",
+    category: "neuro-modulation",
+    title: { ru: "Нейростимулятор Pro" },
+    short: { ru: "Для функциональной терапии" },
+  },
+  {
+    slug: "surgery-kit",
+    category: "neuro-surgery",
+    title: { ru: "Хирургический набор" },
+    short: { ru: "Инструменты для нейрохирургии" },
   },
 ];
 
 function flattenCats(list: Category[]): Category[] {
   const out: Category[] = [];
   for (const c of list) {
-    out.push({ slug: c.slug, title: c.title });
+    out.push(c);
     if (c.children?.length) out.push(...flattenCats(c.children));
   }
   return out;

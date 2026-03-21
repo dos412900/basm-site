@@ -1,36 +1,40 @@
 import Link from "next/link";
-import { flatCategories, products } from "@/lib/basmData";
+import { categories } from "@/lib/basmData";
+import { tField, type Lang } from "@/lib/i18n";
 
-type SP = { [key: string]: string | string[] | undefined };
-
-export default function CatalogPage({ searchParams }: { searchParams?: SP }) {
-  const raw = searchParams?.q;
-  const q = (Array.isArray(raw) ? raw[0] : raw || "").toLowerCase().trim();
-
-  const list = q
-    ? products.filter((p) => (p.title + " " + (p.short || "")).toLowerCase().includes(q))
-    : products;
+export default function CatalogPage({ params }: any) {
+  const lang: Lang = params?.lang || "ru";
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10">
-      <h1 className="text-2xl font-semibold">Каталог</h1>
+    <div className="min-h-screen bg-slate-50 text-slate-900 px-6 py-12">
+      <div className="max-w-6xl mx-auto">
 
-      <div className="mt-4 flex flex-wrap gap-2">
-        {flatCategories.map((c) => (
-          <Link key={c.slug} href={`/catalog/${c.slug}`} className="rounded-full border bg-white px-4 py-2 text-sm">
-            {c.title}
-          </Link>
-        ))}
-      </div>
+        <h1 className="text-4xl font-bold mb-10">
+          Каталог оборудования
+        </h1>
 
-      <h2 className="mt-10 text-lg font-semibold">{q ? `Результаты: “${q}”` : "Товары"}</h2>
-      <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {list.map((p) => (
-          <Link key={p.slug} href={`/product/${p.slug}`} className="rounded-2xl border bg-white p-5 shadow-sm">
-            <div className="text-base font-semibold">{p.title}</div>
-            <div className="mt-2 text-sm text-slate-600">{p.short}</div>
-          </Link>
-        ))}
+        <div className="grid md:grid-cols-3 gap-6">
+          {categories.map((c) => (
+            <Link
+              key={c.slug}
+              href={`/${lang}/catalog/${c.slug}`}
+              className="group"
+            >
+              <div className="p-6 bg-white rounded-2xl shadow-sm border hover:shadow-xl transition-all">
+
+                <div className="text-lg font-semibold mb-2 group-hover:text-blue-600">
+                  {tField(c.title, lang)}
+                </div>
+
+                <div className="text-sm text-slate-600">
+                  {c.desc?.[lang] || c.desc?.ru || "Оборудование"}
+                </div>
+
+              </div>
+            </Link>
+          ))}
+        </div>
+
       </div>
     </div>
   );
