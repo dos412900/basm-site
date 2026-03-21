@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { DEFAULT_LANG, isLang, type Lang, tField } from "@/lib/i18n";
 import { getCategory, getProductsByCategory, flatCategories } from "@/lib/basmData";
 import { notFound } from "next/navigation";
 
@@ -6,7 +7,9 @@ export function generateStaticParams() {
   return flatCategories.map((c) => ({ category: c.slug }));
 }
 
-export default function CategoryPage({ params }: { params: { category: string } }) {
+export default function CategoryPage({ params }: { params: { category: string; lang?: string } }) {
+  const lang: Lang = isLang(params.lang ?? "") ? (params.lang as Lang) : DEFAULT_LANG;
+
   const cat = getCategory(params.category);
   if (!cat) return notFound();
 
@@ -14,7 +17,7 @@ export default function CategoryPage({ params }: { params: { category: string } 
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
-      <h1 className="text-2xl font-semibold">{cat.title}</h1>
+      <h1 className="text-2xl font-semibold">{tField(cat.title, lang)}</h1>
 
       {list.length === 0 ? (
         <div className="mt-4 rounded-2xl border bg-white p-6 text-sm text-slate-600">
@@ -24,8 +27,8 @@ export default function CategoryPage({ params }: { params: { category: string } 
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {list.map((p) => (
             <Link key={p.slug} href={`/product/${p.slug}`} className="rounded-2xl border bg-white p-5 shadow-sm">
-              <div className="text-base font-semibold">{p.title}</div>
-              <div className="mt-2 text-sm text-slate-600">{p.short}</div>
+              <div className="text-base font-semibold">{tField(p.title, lang)}</div>
+              <div className="mt-2 text-sm text-slate-600">{tField(p.short, lang)}</div>
             </Link>
           ))}
         </div>

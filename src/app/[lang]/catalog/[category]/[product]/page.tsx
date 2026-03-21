@@ -62,7 +62,7 @@ export default function ProductPage({ params }: Props) {
           </h1>
 
           <p className="text-slate-600 mb-6">
-            {tField(product.desc, lang)}
+            {tField(product.short, lang)}
           </p>
 
           {/* блок преимуществ */}

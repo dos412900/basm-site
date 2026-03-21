@@ -13,7 +13,12 @@ export type Product = {
   };
   image?: string; // ✅ ВОТ ЭТО ДОБАВЬ
 };
-
+export type Category = {
+  slug: string;
+  title: { ru: string; kz?: string; en?: string };
+  desc?: { ru: string; kz?: string; en?: string };  // добавь это
+  children?: Category[];
+};
 export const categories: Category[] = [
   {
     slug: "neuro-monitoring",

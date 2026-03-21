@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { categories, products } from "@/lib/basmData";
-import { tField } from "@/lib/i18n";
+import { DEFAULT_LANG, isLang, type Lang, tField } from "@/lib/i18n";
 
 interface Props {
   params: {
@@ -17,7 +17,8 @@ interface Props {
 
 export default async function CategoryPage({ params, searchParams }: Props) {
 
-  const { lang = "ru", category: slug } = await params;
+  const { lang: rawLang = "ru", category: slug } = await params;
+const lang: Lang = isLang(rawLang) ? rawLang : DEFAULT_LANG;
 
   if (!slug) return notFound();
 
