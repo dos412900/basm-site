@@ -1,16 +1,17 @@
-export type Category = {
-  slug: string;
-  title: Record<string, string>;
-  children?: Category[];
-};
-
 export type Product = {
   slug: string;
-  title: Record<string, string>;
+  title: {
+    ru: string;
+    kz?: string;
+    en?: string;
+  };
   category: string;
-  short: Record<string, string>;
-  brand?: string;
-  specs?: Array<{ k: string; v: string }>;
+  short: {
+    ru: string;
+    kz?: string;
+    en?: string;
+  };
+  image?: string; // ✅ ВОТ ЭТО ДОБАВЬ
 };
 
 export const categories: Category[] = [
