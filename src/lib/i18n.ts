@@ -11,10 +11,11 @@ export function isLang(value: string): value is Lang {
 /**
  * Универсальный переводчик
  */
-export function tField<T>(
-  field: string | Record<Lang, string>,
-  lang: Lang
+export function tField(
+  field: string | Partial<Record<"ru" | "kz" | "en", string>>,
+  lang: "ru" | "kz" | "en"
 ): string {
   if (typeof field === "string") return field;
-  return field[lang] ?? field[DEFAULT_LANG];
+
+  return field[lang] || field.ru || "";
 }
