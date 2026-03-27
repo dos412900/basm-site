@@ -4,23 +4,28 @@ import { categories, products } from "@/lib/basmData";
 import { DEFAULT_LANG, isLang, type Lang, tField } from "@/lib/i18n";
 
 interface Props {
-  params: {
+  params: Promise<{
     lang: string;
     category: string;
     product: string;
-  };
+  }>;
 }
+<div className="bg-white text-slate-900 min-h-screen">
+  <div className="max-w-6xl mx-auto px-4 py-10">
+    ...
+  </div>
+</div>
 
-export default function ProductPage({ params }: Props) {
-  const lang: Lang = isLang(params.lang) ? params.lang : DEFAULT_LANG;
+export default async function ProductPage({ params }: Props) {
+  const { lang: rawLang, category, product: productSlug } = await params;
 
-  const category = categories.find((c) => c.slug === params.category);
-  if (!category) return notFound();
+  const lang: Lang = isLang(rawLang) ? rawLang : DEFAULT_LANG;
+
+  const categoryObj = categories.find((c) => c.slug === category);
+  if (!categoryObj) return notFound();
 
   const product = products.find(
-    (p) =>
-      p.slug === params.product &&
-      p.category === params.category
+    (p) => p.slug === productSlug && p.category === category
   );
 
   if (!product) return notFound();
@@ -34,10 +39,10 @@ export default function ProductPage({ params }: Props) {
         </Link>{" "}
         /{" "}
         <Link
-          href={`/${lang}/catalog/${category.slug}`}
+          href={`/${lang}/catalog/${categoryObj.slug}`}
           className="hover:underline"
         >
-          {tField(category.title, lang)}
+          {tField(categoryObj.title, lang)}
         </Link>{" "}
         / {tField(product.title, lang)}
       </div>
@@ -48,10 +53,13 @@ export default function ProductPage({ params }: Props) {
           {product.image ? (
             <img
               src={product.image}
+              alt={tField(product.title, lang)}
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="h-[400px]" />
+            <div className="h-[400px] flex items-center justify-center text-slate-400 text-sm">
+              Нет фото
+            </div>
           )}
         </div>
 
@@ -82,7 +90,7 @@ export default function ProductPage({ params }: Props) {
             </Link>
 
             <Link
-              href={`/${lang}/catalog/${category.slug}`}
+              href={`/${lang}/catalog/${categoryObj.slug}`}
               className="px-6 py-3 rounded-xl border hover:bg-slate-100 transition"
             >
               Назад

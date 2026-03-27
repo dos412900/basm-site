@@ -94,11 +94,19 @@ const lang: Lang = isLang(rawLang) ? rawLang : DEFAULT_LANG;
                 className="group rounded-2xl border border-slate-200 bg-white p-4 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
               >
                 {/* картинка */}
-                <div className="aspect-video bg-slate-100 rounded-xl mb-4 overflow-hidden">
-                  <div className="w-full h-full flex items-center justify-center text-slate-400 text-sm">
-                    image
-                  </div>
-                </div>
+<div className="aspect-video bg-slate-100 rounded-xl mb-4 overflow-hidden">
+  {p.image ? (
+    <img
+      src={p.image}
+      alt={tField(p.title, lang)}
+      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+    />
+  ) : (
+    <div className="w-full h-full flex items-center justify-center text-slate-400 text-sm">
+      Нет фото
+    </div>
+  )}
+</div>
 
                 {/* название */}
                 <div className="font-semibold text-slate-900 mb-1 group-hover:text-blue-600 transition">

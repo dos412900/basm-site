@@ -8,12 +8,6 @@
 }
 
 /* ОСНОВА */
-html {
-  height: 100%;
-  color-scheme: dark;
-  background: #070B16 !important;
-}
-
 body {
   min-height: 100%;
   background:

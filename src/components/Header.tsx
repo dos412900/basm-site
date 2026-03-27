@@ -123,7 +123,7 @@ useEffect(() => {
   >
     <Image
       src="/logo.png"
-      alt="BAS-M"
+      alt="БАС-М"
       width={200}
       height={80}
       className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
@@ -132,7 +132,7 @@ useEffect(() => {
 
   <div className="leading-tight">
     <div className="text-sm font-semibold text-slate-900">
-      BAS-M
+      БАС-М
     </div>
     <div className="text-xs text-slate-500">
       medical solutions
