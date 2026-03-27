@@ -2,6 +2,12 @@ import type { ReactNode } from "react";
 import Header from "@/components/Header";
 import { DEFAULT_LANG, isLang, type Lang } from "@/lib/i18n";
 
+export const metadata = {
+  title: "БАС-М",
+  icons: {
+    icon: "/logo.png",
+  },
+};
 type Props = {
   children: ReactNode;
   params: Promise<{ lang: string }>;
