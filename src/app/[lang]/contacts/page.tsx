@@ -1,6 +1,6 @@
 import Card from "@/components/ui/Card";
-import Button from "@/components/ui/Button";
-import { Phone, Mail, Clock, MapPin, Send } from "lucide-react";
+import LeadForm from "@/components/LeadForm";
+import { Phone, Mail, Clock, MapPin } from "lucide-react";
 import { DEFAULT_LANG, isLang, type Lang } from "@/lib/i18n";
 
 type Props = {
@@ -131,32 +131,7 @@ export default async function ContactsPage({ params }: Props) {
             <Card className="p-4 sm:p-6">
               <div className="text-sm font-semibold">{t.formTitle}</div>
 
-              <form className="mt-4 grid gap-4">
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <Field label={t.name} placeholder={t.name} />
-                  <Field label={t.phone} placeholder="+7 (701) 924 99 10" />
-                </div>
-
-                <div className="grid gap-4 sm:grid-cols-2">
-                  <Field label={t.email} placeholder="name@email.com" type="email" />
-                  <Field label={t.org} placeholder={t.org} />
-                </div>
-
-                <div>
-                  <label className="text-xs font-semibold">{t.message}</label>
-                  <textarea
-                    className="mt-2 h-36 w-full rounded-2xl border px-4 py-3 text-base"
-                    placeholder={t.message}
-                  />
-                </div>
-
-                <Button href={`/${lang}/contacts`} className="min-h-12 w-full sm:w-auto">
-                  <span className="inline-flex items-center gap-2">
-                    <Send className="h-4 w-4" />
-                    {t.btn}
-                  </span>
-                </Button>
-              </form>
+              <LeadForm lang={lang} labels={{ name: t.name, phone: t.phone, email: t.email, org: t.org, message: t.message, btn: t.btn }} />
             </Card>
           </div>
         </div>
@@ -187,27 +162,6 @@ function InfoRow({
         <div className="text-xs font-semibold uppercase">{title}</div>
         <div className="mt-1">{children}</div>
       </div>
-    </div>
-  );
-}
-
-function Field({
-  label,
-  placeholder,
-  type = "text",
-}: {
-  label: string;
-  placeholder?: string;
-  type?: string;
-}) {
-  return (
-    <div>
-      <label className="text-xs font-semibold">{label}</label>
-      <input
-        type={type}
-        placeholder={placeholder}
-        className="mt-2 w-full rounded-2xl border px-4 py-3 text-base"
-      />
     </div>
   );
 }

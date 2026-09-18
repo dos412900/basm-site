@@ -1,55 +1,108 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type FormEvent, type InputHTMLAttributes } from "react";
+import { Send } from "lucide-react";
+import type { Lang } from "@/lib/i18n";
 
-export default function LeadForm() {
+type Labels = {
+  name: string;
+  phone: string;
+  email: string;
+  org: string;
+  message: string;
+  btn: string;
+};
+
+const feedback: Record<Lang, { sending: string; success: string; error: string }> = {
+  ru: {
+    sending: "Отправляем...",
+    success: "Заявка отправлена. Мы свяжемся с вами.",
+    error: "Не удалось отправить заявку. Попробуйте ещё раз или позвоните нам.",
+  },
+  kz: {
+    sending: "Жіберілуде...",
+    success: "Өтінім жіберілді. Біз сізбен хабарласамыз.",
+    error: "Өтінімді жіберу мүмкін болмады. Қайта көріңіз немесе бізге қоңырау шалыңыз.",
+  },
+  en: {
+    sending: "Sending...",
+    success: "Your request was sent. We’ll contact you soon.",
+    error: "We couldn’t send your request. Please try again or call us.",
+  },
+};
+
+export default function LeadForm({ lang, labels }: { lang: Lang; labels: Labels }) {
   const [loading, setLoading] = useState(false);
-  const [msg, setMsg] = useState<string | null>(null);
+  const [status, setStatus] = useState<{ kind: "success" | "error"; message: string } | null>(null);
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setMsg(null);
-    setLoading(true);
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (loading) return;
 
-    const fd = new FormData(e.currentTarget);
+    const form = event.currentTarget;
+    const fields = new FormData(form);
     const payload = {
-      name: String(fd.get("name") || ""),
-      phone: String(fd.get("phone") || ""),
-      email: String(fd.get("email") || ""),
-      message: String(fd.get("message") || ""),
+      name: String(fields.get("name") || "").trim(),
+      phone: String(fields.get("phone") || "").trim(),
+      email: String(fields.get("email") || "").trim(),
+      company: String(fields.get("company") || "").trim(),
+      message: String(fields.get("message") || "").trim(),
+      lang,
     };
 
+    setStatus(null);
+    setLoading(true);
+
     try {
-      const r = await fetch("/api/lead", {
+      const response = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
+      const result = await response.json().catch(() => null);
+      if (!response.ok || result?.ok !== true) throw new Error("Lead request failed");
 
-      if (!r.ok) throw new Error("bad");
-      setMsg("Заявка отправлена. Мы свяжемся с вами.");
-      e.currentTarget.reset();
+      form.reset();
+      setStatus({ kind: "success", message: feedback[lang].success });
     } catch {
-      setMsg("Ошибка отправки. Попробуйте позже.");
+      setStatus({ kind: "error", message: feedback[lang].error });
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <form onSubmit={onSubmit} className="rounded-2xl border bg-white p-6 shadow-sm">
+    <form onSubmit={onSubmit} className="mt-4 grid gap-4">
       <div className="grid gap-4 sm:grid-cols-2">
-        <input name="name" placeholder="Имя *" className="h-11 rounded-xl border px-3" />
-        <input name="phone" placeholder="Телефон *" className="h-11 rounded-xl border px-3" />
-        <input name="email" placeholder="Email" className="h-11 rounded-xl border px-3 sm:col-span-2" />
-        <textarea name="message" placeholder="Сообщение" rows={5} className="rounded-xl border px-3 py-2 sm:col-span-2" />
+        <Field name="name" label={labels.name} autoComplete="name" required minLength={2} maxLength={120} />
+        <Field name="phone" label={labels.phone} type="tel" autoComplete="tel" required minLength={7} maxLength={40} placeholder="+7 (701) 924 99 10" />
       </div>
-
-      <button disabled={loading} className="mt-5 h-11 rounded-xl bg-slate-900 px-5 text-sm font-medium text-white disabled:opacity-60">
-        {loading ? "Отправка..." : "Отправить"}
+      <div className="grid gap-4 sm:grid-cols-2">
+        <Field name="email" label={labels.email} type="email" autoComplete="email" maxLength={254} placeholder="name@email.com" />
+        <Field name="company" label={labels.org} autoComplete="organization" maxLength={160} />
+      </div>
+      <div>
+        <label htmlFor="lead-message" className="text-xs font-semibold">{labels.message}</label>
+        <textarea id="lead-message" name="message" maxLength={5000} className="mt-2 h-36 w-full rounded-2xl border px-4 py-3 text-base" placeholder={labels.message} />
+      </div>
+      <button type="submit" disabled={loading} className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 to-emerald-500 px-5 py-3 text-sm font-semibold text-white shadow-sm transition hover:opacity-95 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-600 disabled:cursor-wait disabled:opacity-60 sm:w-auto">
+        <Send className="h-4 w-4" aria-hidden="true" />
+        {loading ? feedback[lang].sending : labels.btn}
       </button>
-
-      {msg ? <div className="mt-3 text-sm text-slate-700">{msg}</div> : null}
+      {status && (
+        <p role={status.kind === "error" ? "alert" : "status"} aria-live="polite" className={status.kind === "error" ? "text-sm text-red-700" : "text-sm text-emerald-700"}>
+          {status.message}
+        </p>
+      )}
     </form>
+  );
+}
+
+function Field({ name, label, type = "text", ...props }: { name: string; label: string; type?: string } & InputHTMLAttributes<HTMLInputElement>) {
+  return (
+    <div>
+      <label htmlFor={`lead-${name}`} className="text-xs font-semibold">{label}</label>
+      <input id={`lead-${name}`} name={name} type={type} className="mt-2 w-full rounded-2xl border px-4 py-3 text-base" {...props} />
+    </div>
   );
 }
