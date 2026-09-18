@@ -59,12 +59,12 @@ export default function ServicePage() {
     <div className="bg-white text-slate-900 min-h-screen">
 
       {/* HERO */}
-      <section className="relative h-[280px] flex items-center overflow-hidden">
+      <section className="relative flex min-h-[220px] items-center overflow-hidden py-10 sm:min-h-[280px]">
         <div className="absolute inset-0">
           <img src="/catalog-bg.jpg" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-black/55" />
         </div>
-        <div className="relative z-10 max-w-6xl mx-auto px-6 text-white">
+        <div className="relative z-10 mx-auto w-full max-w-6xl px-4 text-white sm:px-6">
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -77,7 +77,7 @@ export default function ServicePage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl font-bold"
+            className="text-3xl font-bold sm:text-4xl"
           >
             Сервис и поддержка
           </motion.h1>
@@ -85,7 +85,7 @@ export default function ServicePage() {
       </section>
 
       {/* УСЛУГИ */}
-      <section className="max-w-6xl mx-auto px-6 py-16">
+      <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -94,7 +94,7 @@ export default function ServicePage() {
           className="mb-12"
         >
           <p className="text-sm text-slate-400 uppercase tracking-widest mb-2">Что мы делаем</p>
-          <h2 className="text-3xl font-bold">Наши услуги</h2>
+          <h2 className="text-2xl font-bold sm:text-3xl">Наши услуги</h2>
           <div className="mt-4 h-[3px] w-12 bg-blue-600 rounded-full" />
         </motion.div>
 
@@ -119,8 +119,8 @@ export default function ServicePage() {
       </section>
 
       {/* ЭТАПЫ */}
-      <section className="bg-slate-50 py-16">
-        <div className="max-w-6xl mx-auto px-6">
+      <section className="bg-slate-50 py-10 sm:py-16">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -129,7 +129,7 @@ export default function ServicePage() {
             className="mb-12"
           >
             <p className="text-sm text-slate-400 uppercase tracking-widest mb-2">Как мы работаем</p>
-            <h2 className="text-3xl font-bold">Этапы работы</h2>
+            <h2 className="text-2xl font-bold sm:text-3xl">Этапы работы</h2>
             <div className="mt-4 h-[3px] w-12 bg-blue-600 rounded-full" />
           </motion.div>
 
@@ -160,13 +160,13 @@ export default function ServicePage() {
       </section>
 
       {/* CTA */}
-      <section className="max-w-6xl mx-auto px-6 py-16">
+      <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="bg-blue-600 rounded-3xl p-10 text-white flex flex-col lg:flex-row items-center justify-between gap-6"
+          className="flex flex-col items-stretch justify-between gap-6 rounded-3xl bg-blue-600 p-6 text-white sm:p-10 lg:flex-row lg:items-center"
         >
           <div>
             <h2 className="text-2xl font-bold mb-2">Нужна помощь с оборудованием?</h2>
@@ -175,7 +175,7 @@ export default function ServicePage() {
           
             <Link
             href="/ru/contacts"
-            className="shrink-0 px-8 py-3 bg-white text-blue-600 font-semibold rounded-xl hover:bg-blue-50 transition"
+            className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-xl bg-white px-6 py-3 font-semibold text-blue-600 transition hover:bg-blue-50 sm:px-8"
           >
             Оставить заявку
           </Link>

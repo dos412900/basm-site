@@ -33,12 +33,12 @@ export default function AboutPage() {
     <div className="bg-white text-slate-900 min-h-screen">
 
       {/* HERO */}
-      <section className="relative h-[280px] flex items-center overflow-hidden">
+      <section className="relative flex min-h-[220px] items-center overflow-hidden py-10 sm:min-h-[280px]">
         <div className="absolute inset-0">
           <img src="/catalog-bg.jpg" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-black/55" />
         </div>
-        <div className="relative z-10 max-w-6xl mx-auto px-6 text-white">
+        <div className="relative z-10 mx-auto w-full max-w-6xl px-4 text-white sm:px-6">
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -51,7 +51,7 @@ export default function AboutPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl font-bold"
+            className="text-3xl font-bold sm:text-4xl"
           >
             О компании
           </motion.h1>
@@ -59,17 +59,17 @@ export default function AboutPage() {
       </section>
 
       {/* ОСНОВНОЙ ТЕКСТ */}
-      <section className="max-w-6xl mx-auto px-6 py-16">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
+      <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-16">
+        <div className="grid items-start gap-8 lg:grid-cols-2 lg:gap-16">
 
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
             <p className="text-sm text-slate-400 uppercase tracking-widest mb-3">Кто мы</p>
-            <h2 className="text-3xl font-bold mb-6">О компании БАС-М</h2>
+            <h2 className="mb-6 text-2xl font-bold sm:text-3xl">О компании БАС-М</h2>
             <div className="h-[3px] w-12 bg-blue-600 rounded-full mb-8" />
 
             <div className="space-y-4 text-slate-600 leading-relaxed">
@@ -99,11 +99,11 @@ export default function AboutPage() {
 
           {/* СТАТИСТИКА */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
-            className="grid grid-cols-2 gap-4 lg:mt-16"
+            className="grid grid-cols-2 gap-3 sm:gap-4 lg:mt-16"
           >
             {stats.map((s, i) => (
               <motion.div
@@ -112,9 +112,9 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: i * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-slate-50 rounded-2xl p-6 border border-slate-100"
+                className="rounded-2xl border border-slate-100 bg-slate-50 p-4 sm:p-6"
               >
-                <div className="text-3xl font-bold text-blue-600 mb-1">{s.value}</div>
+                <div className="mb-1 break-words text-2xl font-bold text-blue-600 sm:text-3xl">{s.value}</div>
                 <div className="text-sm text-slate-500">{s.label}</div>
               </motion.div>
             ))}
@@ -124,8 +124,8 @@ export default function AboutPage() {
       </section>
 
       {/* ПРИНЦИПЫ */}
-      <section className="bg-slate-50 py-16">
-        <div className="max-w-6xl mx-auto px-6">
+      <section className="bg-slate-50 py-10 sm:py-16">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -134,7 +134,7 @@ export default function AboutPage() {
             className="mb-12"
           >
             <p className="text-sm text-slate-400 uppercase tracking-widest mb-2">Наши ценности</p>
-            <h2 className="text-3xl font-bold">Ключевые принципы</h2>
+            <h2 className="text-2xl font-bold sm:text-3xl">Ключевые принципы</h2>
             <div className="mt-4 h-[3px] w-12 bg-blue-600 rounded-full" />
           </motion.div>
 
@@ -146,7 +146,7 @@ export default function AboutPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 viewport={{ once: true }}
-                className="bg-white rounded-2xl p-8 border border-slate-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+                className="rounded-2xl border border-slate-100 bg-white p-5 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg sm:p-8"
               >
                 <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-5">
                   {p.icon}
@@ -160,13 +160,13 @@ export default function AboutPage() {
       </section>
 
       {/* CTA */}
-      <section className="max-w-6xl mx-auto px-6 py-16">
+      <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="bg-blue-600 rounded-3xl p-10 text-white flex flex-col lg:flex-row items-center justify-between gap-6"
+          className="flex flex-col items-stretch justify-between gap-6 rounded-3xl bg-blue-600 p-6 text-white sm:p-10 lg:flex-row lg:items-center"
         >
           <div>
             <h2 className="text-2xl font-bold mb-2">Хотите стать нашим партнёром?</h2>
@@ -175,7 +175,7 @@ export default function AboutPage() {
           
             <Link
             href="/ru/contacts"
-            className="shrink-0 px-8 py-3 bg-white text-blue-600 font-semibold rounded-xl hover:bg-blue-50 transition"
+            className="inline-flex min-h-12 shrink-0 items-center justify-center rounded-xl bg-white px-6 py-3 font-semibold text-blue-600 transition hover:bg-blue-50 sm:px-8"
           >
             Связаться с нами
           </Link>

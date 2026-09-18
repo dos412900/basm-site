@@ -82,7 +82,7 @@ export default async function ContactsPage({ params }: Props) {
 
   return (
     <div className="bg-slate-50 text-slate-900">
-      <div className="mx-auto max-w-6xl px-4 py-10">
+      <div className="mx-auto max-w-6xl px-4 py-8 sm:py-10">
         <div className="flex flex-col gap-2">
           <h1 className="text-3xl font-semibold tracking-tight">{t.title}</h1>
           <p className="max-w-2xl text-sm leading-7 text-slate-600">
@@ -92,7 +92,7 @@ export default async function ContactsPage({ params }: Props) {
 
         <div className="mt-8 grid gap-6 lg:grid-cols-12">
           <div className="lg:col-span-5">
-            <Card className="p-6">
+            <Card className="p-4 sm:p-6">
               <div className="grid gap-4">
                 <InfoRow icon={<Phone className="h-5 w-5" />} title={t.blocks.phone}>
                   <a className="font-semibold hover:underline" href="tel:+77019249910">
@@ -128,7 +128,7 @@ export default async function ContactsPage({ params }: Props) {
           </div>
 
           <div className="lg:col-span-7">
-            <Card className="p-6">
+            <Card className="p-4 sm:p-6">
               <div className="text-sm font-semibold">{t.formTitle}</div>
 
               <form className="mt-4 grid gap-4">
@@ -145,12 +145,12 @@ export default async function ContactsPage({ params }: Props) {
                 <div>
                   <label className="text-xs font-semibold">{t.message}</label>
                   <textarea
-                    className="mt-2 h-36 w-full rounded-2xl border px-4 py-3 text-sm"
+                    className="mt-2 h-36 w-full rounded-2xl border px-4 py-3 text-base"
                     placeholder={t.message}
                   />
                 </div>
 
-                <Button href={`/${lang}/contacts`}>
+                <Button href={`/${lang}/contacts`} className="min-h-12 w-full sm:w-auto">
                   <span className="inline-flex items-center gap-2">
                     <Send className="h-4 w-4" />
                     {t.btn}
@@ -180,10 +180,10 @@ function InfoRow({
 }) {
   return (
     <div className="flex items-start gap-3">
-      <div className="flex h-9 w-9 items-center justify-center rounded-xl border">
+      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border">
         {icon}
       </div>
-      <div>
+      <div className="min-w-0 break-words">
         <div className="text-xs font-semibold uppercase">{title}</div>
         <div className="mt-1">{children}</div>
       </div>
@@ -206,7 +206,7 @@ function Field({
       <input
         type={type}
         placeholder={placeholder}
-        className="mt-2 w-full rounded-2xl border px-4 py-3 text-sm"
+        className="mt-2 w-full rounded-2xl border px-4 py-3 text-base"
       />
     </div>
   );

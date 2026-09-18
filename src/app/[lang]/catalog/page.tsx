@@ -10,19 +10,19 @@ export default function CatalogPage({ params }: any) {
 
   return (
     <div className="bg-slate-50 text-slate-900 min-h-screen">
-      <section className="max-w-6xl mx-auto px-6 py-16">
+      <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-16">
 
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="mb-12"
+          className="mb-8 sm:mb-12"
         >
           <p className="text-sm text-slate-400 uppercase tracking-widest mb-3">
             Каталог оборудования
           </p>
-          <h1 className="text-4xl font-bold leading-tight">
+          <h1 className="text-3xl font-bold leading-tight sm:text-4xl">
             Категории
           </h1>
           <div className="mt-4 h-[3px] w-12 bg-blue-600 rounded-full" />

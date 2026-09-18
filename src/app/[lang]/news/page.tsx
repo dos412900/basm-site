@@ -68,12 +68,12 @@ export default function NewsPage() {
     <div className="bg-white text-slate-900 min-h-screen">
 
       {/* HERO */}
-      <section className="relative h-[280px] flex items-center overflow-hidden">
+      <section className="relative flex min-h-[220px] items-center overflow-hidden py-10 sm:min-h-[280px]">
         <div className="absolute inset-0">
           <img src="/catalog-bg.jpg" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-black/55" />
         </div>
-        <div className="relative z-10 max-w-6xl mx-auto px-6 text-white">
+        <div className="relative z-10 mx-auto w-full max-w-6xl px-4 text-white sm:px-6">
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -86,27 +86,27 @@ export default function NewsPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl font-bold"
+            className="text-3xl font-bold sm:text-4xl"
           >
             Новости
           </motion.h1>
         </div>
       </section>
 
-      <section className="max-w-6xl mx-auto px-6 py-16">
+      <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-16">
 
         {/* ФИЛЬТР */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex flex-wrap gap-2 mb-12"
+          className="mb-8 flex flex-wrap gap-2 sm:mb-12"
         >
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
               onClick={() => setActive(cat)}
-              className={`px-5 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+              className={`min-h-11 rounded-xl px-4 py-2 text-sm font-medium transition-all duration-200 sm:px-5 ${
                 active === cat
                   ? "bg-blue-600 text-white shadow-md"
                   : "bg-slate-100 text-slate-600 hover:bg-slate-200"

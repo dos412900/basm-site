@@ -59,6 +59,7 @@ useEffect(() => {
 
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
+        setMobile(false);
         setOpenCat(false);
         setOpenLang(false);
       }
@@ -72,6 +73,12 @@ useEffect(() => {
       document.removeEventListener("keydown", onKey);
     };
   }, []);
+
+  useEffect(() => {
+    setMobile(false);
+    setOpenCat(false);
+    setOpenLang(false);
+  }, [pathname]);
 
   function buildPath(nextLang: Lang) {
     const p = pathname.split("/").filter(Boolean);
@@ -100,9 +107,9 @@ useEffect(() => {
       <div className="border-b border-slate-200 bg-slate-50">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-2 text-xs text-slate-700">
           <div>bas-m.kz</div>
-          <div className="hidden sm:flex gap-4">
-            <span>info@bas-m.kz</span>
-            <span>+7 (700) 110 0631</span>
+          <div className="flex gap-4">
+            <a href="mailto:info@bas-m.kz" className="hidden sm:inline hover:text-blue-600">info@bas-m.kz</a>
+            <a href="tel:+77001100631" className="hover:text-blue-600">+7 (700) 110 0631</a>
           </div>
         </div>
       </div>
@@ -113,7 +120,7 @@ useEffect(() => {
         {/* LOGO */}
         <Link
   href={`/${lang}`}
-  className="flex items-center gap-3 group"
+  className="group flex min-w-0 items-center gap-2 sm:gap-3"
 >
   <div
     className={cn(
@@ -126,11 +133,11 @@ useEffect(() => {
       alt="БАС-М"
       width={200}
       height={80}
-      className="h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+      className="h-8 w-auto object-contain transition-transform duration-300 group-hover:scale-105 sm:h-10"
     />
   </div>
 
-  <div className="leading-tight">
+  <div className="hidden leading-tight sm:block">
     <div className="text-sm font-semibold text-slate-900">
       БАС-М
     </div>
@@ -141,7 +148,7 @@ useEffect(() => {
 </Link>
 
         {/* DESKTOP */}
-        <div className="ml-2 hidden md:flex flex-1 items-center gap-4">
+        <div className="ml-2 hidden min-w-0 flex-1 items-center gap-4 xl:flex">
 
           {/* CATALOG */}
           <div className="relative" ref={panelRef}>
@@ -174,18 +181,18 @@ useEffect(() => {
           {/* SEARCH */}
           <form
             action={`/${lang}/catalog`}
-            className="flex flex-1 items-center gap-2 rounded-xl bg-white px-3 py-2 shadow-sm border border-slate-200 focus-within:ring-2 focus-within:ring-blue-500/40"
+            className="flex min-w-0 flex-1 items-center gap-2 rounded-xl bg-white px-3 py-2 shadow-sm border border-slate-200 focus-within:ring-2 focus-within:ring-blue-500/40"
           >
             <Search className="h-4 w-4 text-slate-500" />
             <input
               name="q"
-              className="w-full bg-transparent outline-none text-sm text-slate-900 placeholder:text-slate-500"
+              className="min-w-0 w-full bg-transparent outline-none text-sm text-slate-900 placeholder:text-slate-500"
               placeholder={tField(text.search, lang)}
             />
           </form>
 
           {/* NAV */}
-          <nav className="flex gap-4 text-sm text-slate-900">
+          <nav className="flex shrink-0 gap-4 text-sm text-slate-900">
   <Link href={`/${lang}/service`} className="hover:text-blue-600">
     {tField(text.navService, lang)}
   </Link>
@@ -227,25 +234,46 @@ useEffect(() => {
 
         {/* MOBILE BUTTON */}
         <button
+          type="button"
           onClick={() => setMobile(!mobile)}
-          className="ml-auto md:hidden"
+          aria-label={mobile ? "Закрыть меню" : "Открыть меню"}
+          aria-controls="mobile-navigation"
+          aria-expanded={mobile}
+          className="ml-auto inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-200 text-slate-900 xl:hidden"
         >
-          {mobile ? <X /> : <Menu />}
+          {mobile ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
         </button>
       </div>
 
       {/* MOBILE MENU */}
       {mobile && (
-        <div className="md:hidden border-t bg-white p-4 space-y-2">
-          <Link href={`/${lang}/catalog`} className="block">
-            {tField(text.navCatalog, lang)}
-          </Link>
-          <Link href={`/${lang}/service`} className="block">
-            {tField(text.navService, lang)}
-          </Link>
-          <Link href={`/${lang}/contacts`} className="block">
-            {tField(text.navContacts, lang)}
-          </Link>
+        <div id="mobile-navigation" className="max-h-[calc(100dvh-104px)] overflow-y-auto border-t border-slate-200 bg-white px-4 pb-5 pt-4 shadow-lg xl:hidden">
+          <div className="mx-auto max-w-6xl space-y-4">
+            <form action={`/${lang}/catalog`} className="flex items-center gap-3 rounded-xl border border-slate-200 px-4 focus-within:ring-2 focus-within:ring-blue-500/40">
+              <Search className="h-5 w-5 shrink-0 text-slate-500" aria-hidden="true" />
+              <input name="q" type="search" aria-label={tField(text.search, lang)} placeholder={tField(text.search, lang)} className="h-12 min-w-0 w-full bg-transparent text-base text-slate-900 outline-none" />
+            </form>
+            <nav className="grid gap-1 text-base font-medium text-slate-900" aria-label="Основная навигация">
+              {[
+                ["catalog", text.navCatalog],
+                ["service", text.navService],
+                ["news", text.navNews],
+                ["about", text.navAbout],
+                ["contacts", text.navContacts],
+              ].map(([segment, label]) => (
+                <Link key={segment as string} href={`/${lang}/${segment}`} onClick={() => setMobile(false)} className="rounded-xl px-3 py-3 hover:bg-slate-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-600">
+                  {tField(label as typeof text.navCatalog, lang)}
+                </Link>
+              ))}
+            </nav>
+            <div className="flex items-center gap-2 border-t border-slate-200 pt-4" aria-label="Язык сайта">
+              {(["ru", "kz", "en"] as Lang[]).map((l) => (
+                <button key={l} type="button" onClick={() => { setLang(l); setMobile(false); }} aria-current={lang === l ? "true" : undefined} className={cn("min-h-11 rounded-xl px-4 text-sm font-semibold", lang === l ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-800")}>
+                  {l.toUpperCase()}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       )}
     </header>

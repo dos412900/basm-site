@@ -45,7 +45,7 @@ const lang: Lang = isLang(rawLang) ? rawLang : DEFAULT_LANG;
     <div className="bg-white text-slate-900">
 
       {/* 🔥 HERO */}
-      <section className="relative h-[320px] flex items-center overflow-hidden">
+      <section className="relative flex min-h-[220px] items-center overflow-hidden py-10 sm:min-h-[320px]">
 
   <div className="absolute inset-0 z-0">
     <img
@@ -55,8 +55,8 @@ const lang: Lang = isLang(rawLang) ? rawLang : DEFAULT_LANG;
     <div className="absolute inset-0 bg-black/50" />
   </div>
 
-  <div className="relative z-10 max-w-6xl mx-auto px-4 text-white">
-    <h1 className="text-4xl font-bold">
+  <div className="relative z-10 mx-auto w-full max-w-6xl px-4 text-white">
+    <h1 className="break-words text-2xl font-bold leading-tight sm:text-4xl">
       {tField(category.title, lang)}
     </h1>
   </div>
@@ -64,18 +64,18 @@ const lang: Lang = isLang(rawLang) ? rawLang : DEFAULT_LANG;
 </section>
 
       {/* 📦 КОНТЕНТ */}
-      <div className="max-w-6xl mx-auto px-4 py-12">
+      <div className="mx-auto max-w-6xl px-4 py-8 sm:py-12">
 
         {/* 🔎 ПОИСК */}
         <form
           action={`/${lang}/catalog/${slug}`}
-          className="mb-10"
+          className="mb-8 sm:mb-10"
         >
           <input
             name="q"
             placeholder="Поиск по каталогу..."
             defaultValue={query}
-            className="w-full rounded-2xl border border-slate-200 bg-white px-5 py-4 text-sm outline-none shadow-sm focus:ring-2 focus:ring-blue-500/40 transition"
+            className="w-full rounded-2xl border border-slate-200 bg-white px-5 py-4 text-base outline-none shadow-sm transition focus:ring-2 focus:ring-blue-500/40"
           />
         </form>
 
